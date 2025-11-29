@@ -11,10 +11,15 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
+            overflow-x: hidden;
         }
 
         header {
@@ -22,16 +27,19 @@
             color: white;
             text-align: center;
             padding: 4rem 2rem;
+            animation: fadeInDown 1s ease-out;
         }
 
         header h1 {
             font-size: 3rem;
             margin-bottom: 0.5rem;
+            animation: slideInLeft 1s ease-out;
         }
 
         header p {
             font-size: 1.2rem;
             opacity: 0.9;
+            animation: slideInRight 1s ease-out;
         }
 
         nav {
@@ -39,6 +47,8 @@
             padding: 1rem;
             position: sticky;
             top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         nav ul {
@@ -48,26 +58,77 @@
             gap: 2rem;
         }
 
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
         nav a {
             color: white;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
         }
 
         nav a:hover {
             color: #667eea;
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
         }
 
         section {
             max-width: 1000px;
             margin: 0 auto;
             padding: 3rem 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
         }
+
+        section:nth-child(2) { animation-delay: 0.2s; }
+        section:nth-child(3) { animation-delay: 0.3s; }
+        section:nth-child(4) { animation-delay: 0.4s; }
 
         h2 {
             font-size: 2rem;
             margin-bottom: 1.5rem;
             color: #667eea;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            animation: expandWidth 0.8s ease-out;
         }
 
         .projects {
@@ -81,17 +142,25 @@
             background: #f4f4f4;
             padding: 1.5rem;
             border-radius: 8px;
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
         }
 
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
         }
 
         .project-card h3 {
             color: #764ba2;
             margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .project-card:hover h3 {
+            color: #667eea;
         }
 
         .skills {
@@ -102,14 +171,29 @@
         }
 
         .skill {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            animation: fadeIn 0.5s ease-out backwards;
+        }
+
+        .skill:nth-child(1) { animation-delay: 0.1s; }
+        .skill:nth-child(2) { animation-delay: 0.2s; }
+        .skill:nth-child(3) { animation-delay: 0.3s; }
+        .skill:nth-child(4) { animation-delay: 0.4s; }
+        .skill:nth-child(5) { animation-delay: 0.5s; }
+        .skill:nth-child(6) { animation-delay: 0.6s; }
+
+        .skill:hover {
+            transform: scale(1.1) rotate(-3deg);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
         footer {
-            background: #333;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
             text-align: center;
             padding: 2rem;
@@ -121,11 +205,174 @@
             justify-content: center;
             gap: 2rem;
             margin-top: 1rem;
+            flex-wrap: wrap;
         }
 
         .contact-links a {
             color: #667eea;
             text-decoration: none;
+            padding: 0.7rem 1.5rem;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .contact-links a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes expandWidth {
+            from {
+                width: 0;
+            }
+            to {
+                width: 60px;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                display: none;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav {
+                padding: 0.5rem 1rem;
+            }
+
+            .hamburger {
+                display: flex;
+                margin-left: auto;
+            }
+
+            nav a {
+                display: block;
+                padding: 1rem;
+                border-bottom: 1px solid #444;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .projects {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            section {
+                padding: 2rem 1rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .contact-links a {
+                width: 80%;
+                max-width: 250px;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .projects {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 2rem 1rem;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .skill {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
         }
     </style>
 </head>
@@ -136,11 +383,16 @@
 </header>
 
 <nav>
-    <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <ul id="nav-menu">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
     </ul>
 </nav>
 
@@ -188,5 +440,54 @@
     </div>
     <p style="margin-top: 2rem;">© 2025 Portfolio</p>
 </footer>
+
+<script>
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
+    // Add scroll-based animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe all sections
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+    });
+
+    // Parallax effect on scroll (subtle)
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const header = document.querySelector('header');
+        if (header) {
+            header.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+    });
+</script>
 </body>
 </html>
